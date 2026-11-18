@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
-app.use(express.json());
+
 
 const client = new MongoClient(process.env.MONGODB_URI, {
   serverApi: {
@@ -28,6 +28,13 @@ async function run() {
     const menuItemsCollection = db.collection("menuItems");
     const ordersCollection = db.collection("orders");
     const transactionsCollection = db.collection("transactions");
+
+        app.use(
+      "/webhook",
+      require("./routes/webhook")(usersCollection, transactionsCollection)
+    );
+
+    app.use(express.json());
 
     app.use("/menu-items", require("./routes/menuItems")(menuItemsCollection));
 
