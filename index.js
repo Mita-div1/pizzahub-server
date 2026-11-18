@@ -82,6 +82,11 @@ app.get("/", (req, res) => {
   res.send("PizzaHub server is running");
 });
 
-app.listen(port, () => {
-  console.log(`PizzaHub server is running on port ${port}`);
-}); 
+
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  app.listen(port, () => {
+    console.log(`PizzaHub server is running on port ${port}`);
+  });
+}
