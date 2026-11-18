@@ -31,6 +31,11 @@ async function run() {
 
     app.use("/menu-items", require("./routes/menuItems")(menuItemsCollection));
 
+        app.use(
+      "/vendor/menu-items",
+      require("./routes/vendorMenuItems")(menuItemsCollection, usersCollection)
+    );
+
     await db.command({ ping: 1 });
     console.log("Connected to MongoDB: pizzahub database");
   } catch (error) {
@@ -45,4 +50,4 @@ app.get("/", (req, res) => {
 
 app.listen(port, () => {
   console.log(`PizzaHub server is running on port ${port}`);
-});
+}); 
