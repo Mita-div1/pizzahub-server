@@ -45,7 +45,18 @@ async function run() {
       "/vendor/orders",
       require("./routes/vendorOrders")(ordersCollection, usersCollection)
     );
-    
+
+
+        app.use(
+      "/admin",
+      require("./routes/admin")(
+        usersCollection,
+        menuItemsCollection,
+        ordersCollection,
+        transactionsCollection
+      )
+    );
+
 
     await db.command({ ping: 1 });
     console.log("Connected to MongoDB: pizzahub database");
