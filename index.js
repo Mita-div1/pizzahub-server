@@ -29,6 +29,8 @@ async function run() {
     const ordersCollection = db.collection("orders");
     const transactionsCollection = db.collection("transactions");
 
+    app.use("/menu-items", require("./routes/menuItems")(menuItemsCollection));
+
     await db.command({ ping: 1 });
     console.log("Connected to MongoDB: pizzahub database");
   } catch (error) {
