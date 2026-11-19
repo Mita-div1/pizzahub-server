@@ -33,7 +33,10 @@ app.use(
 
 app.use(express.json());
 
-app.use("/menu-items", require("./routes/menuItems")(menuItemsCollection));
+app.use(
+  "/menu-items",
+  require("./routes/menuItems")(menuItemsCollection, usersCollection)
+);
 
 app.use(
   "/vendor/menu-items",
@@ -73,7 +76,7 @@ app.get("/", (req, res) => {
   res.send("PizzaHub server is running");
 });
 
-if (process.env.VERCEL) {
+if (process.env.VERCEL) { 
   module.exports = app;
 } else {
   app.listen(port, () => {

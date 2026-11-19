@@ -2,7 +2,7 @@
 const express = require("express");
 const { ObjectId } = require("mongodb");
 
-module.exports = (menuItemsCollection) => {
+module.exports = (menuItemsCollection, usersCollection) => {
   const router = express.Router();
 
   router.get("/", async (req, res) => {
@@ -52,7 +52,15 @@ module.exports = (menuItemsCollection) => {
         return res.status(404).send({ message: "Item not found" });
       }
 
-      res.send(item);
+      let vendor = null;
+      if (ObjectId.isValid(item.vendorId)) {
+        vendor = await usersCollection.findOne(
+          { _id: new ObjectId(item.vendorId) },
+          { projection: { name: 1, businessName: 1, image: 1 } }
+        );
+      }
+
+      res.send({ ...item, vendor });
     } catch (error) {
       res.status(500).send({ message: "Failed to load item" });
     }
