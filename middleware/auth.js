@@ -1,10 +1,16 @@
 
+let joseLib;
+let jwks;
 
-const { createRemoteJWKSet, jwtVerify } = require("jose");
-
-const jwks = createRemoteJWKSet(
-  new URL(`${process.env.CLIENT_URL}/api/auth/jwks`)
-);
+async function getJose() {
+  if (!joseLib) joseLib = await import("jose");
+  if (!jwks) {
+    jwks = joseLib.createRemoteJWKSet(
+      new URL(`${process.env.CLIENT_URL}/api/auth/jwks`)
+    );
+  }
+  return { jwtVerify: joseLib.jwtVerify, jwks };
+}
 
 const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -16,6 +22,7 @@ const verifyToken = async (req, res, next) => {
   const token = authHeader.split(" ")[1];
 
   try {
+    const { jwtVerify, jwks } = await getJose();
     const { payload } = await jwtVerify(token, jwks);
     req.user = {
       id: payload.id || payload.sub,
