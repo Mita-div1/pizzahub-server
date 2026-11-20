@@ -9,7 +9,7 @@ module.exports = (menuItemsCollection, usersCollection) => {
     try {
       const { search, category, location, sort, limit } = req.query;
 
-      const query = { status: "approved" };
+      const query = { status: "approved", available: { $ne: false } };
 
       if (search) {
         query.itemName = { $regex: search, $options: "i" };
@@ -46,6 +46,7 @@ module.exports = (menuItemsCollection, usersCollection) => {
       const item = await menuItemsCollection.findOne({
         _id: new ObjectId(id),
         status: "approved",
+        available: { $ne: false },
       });
 
       if (!item) {

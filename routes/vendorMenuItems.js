@@ -95,6 +95,9 @@ module.exports = (menuItemsCollection, usersCollection) => {
       if (description) updates.description = description;
       if (location) updates.location = location;
       if (images && images.length) updates.images = images;
+            if (typeof req.body.available === "boolean") {
+        updates.available = req.body.available;
+      }
       if (price) {
         if (isNaN(price) || Number(price) <= 0) {
           return res.status(400).send({ message: "Price must be a positive number" });
