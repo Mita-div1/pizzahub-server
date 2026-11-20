@@ -1,9 +1,9 @@
 
-# 🍕 PizzaHub — Server
+#  PizzaHub — Server
 
 REST API for the PizzaHub pizza ordering and delivery platform, built with **Express** and **MongoDB**. It handles menu items, orders, role-based access, Stripe payments and admin moderation.
 
-## 🔗 Links
+##  Links
 
 | | Link |
 |---|---|
@@ -12,7 +12,7 @@ REST API for the PizzaHub pizza ordering and delivery platform, built with **Exp
 | Server repo | https://github.com/Mita-div1/pizzahub-server |
 | Client repo | https://github.com/Mita-div1/pizzahub-client |
 
-## ✨ Features
+##  Features
 
 - JWT verification (via Better Auth JWKS) and role-based middleware
 - Public menu API with search, filter, sort and limit
@@ -23,7 +23,7 @@ REST API for the PizzaHub pizza ordering and delivery platform, built with **Exp
 - Stripe Checkout for Premium vendor subscription
 - Stripe webhook activates Premium (30 days) only after confirmed payment, idempotent per session
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 - **Node.js**, **Express v5**
 - **MongoDB** (official driver, Atlas)
@@ -32,7 +32,7 @@ REST API for the PizzaHub pizza ordering and delivery platform, built with **Exp
 - **cors**, **dotenv**
 - Deployed on **Vercel** (serverless)
 
-## 📦 Installation
+## Installation
 
 ```bash
 git clone https://github.com/Mita-div1/pizzahub-server.git
@@ -40,7 +40,7 @@ cd pizzahub-server
 npm install
 ```
 
-## ⚙️ Environment Variables
+##  Environment Variables
 
 Create a `.env` file. Only names are listed:
 
@@ -55,7 +55,7 @@ PORT=
 
 `CLIENT_URL` is used to fetch the JWKS from `${CLIENT_URL}/api/auth/jwks`.
 
-## ▶️ Run Locally
+##  Run Locally
 
 ```bash
 node index.js
@@ -67,7 +67,7 @@ The API runs on http://localhost:5000. For webhooks locally:
 stripe listen --forward-to localhost:5000/webhook
 ```
 
-## 📚 API Overview
+##  API Overview
 
 | Area | Endpoints | Access |
 |---|---|---|
@@ -79,17 +79,11 @@ stripe listen --forward-to localhost:5000/webhook
 | Payments | `POST /payments/create-checkout-session` | Vendor |
 | Webhook | `POST /webhook` | Stripe only |
 
-## 🧪 Challenge Implementation
+##  Challenge Implementation
 
 **1. Search, filter & sort** — `GET /menu-items` only returns approved items and accepts:
 
-| Param | Example |
-|---|---|
-| `search` | `?search=pepperoni` |
-| `category` | `?category=Non-Veg` |
-| `location` | `?location=Dhaka` |
-| `sort` | `?sort=price_asc` or `price_desc` |
-| `limit` | `?limit=6` |
+
 
 **2. JWT middleware flow**
 1. Client sends `Authorization: Bearer <token>`.
@@ -100,7 +94,7 @@ stripe listen --forward-to localhost:5000/webhook
 **3. Stripe webhook**
 `/webhook` uses `express.raw` and is mounted **before** `express.json()` so the signature can be verified. Premium is activated only on `checkout.session.completed` with `payment_status = paid`.
 
-## 🔑 Demo Accounts
+## Demo Accounts
 
 | Role | Email | Password |
 |---|---|---|
@@ -109,6 +103,6 @@ stripe listen --forward-to localhost:5000/webhook
 
 Stripe test card: `4242 4242 4242 4242`, any future date, CVC `123`.
 
-## 👩‍💻 Author
+## Author
 
 Moumita Bala
